@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>سامانه نوین نظارت</title>
+<style>
+body{margin:0;font-family:Tahoma,Arial;background:#f1f4f8;color:#202b3c}
+header{background:#14243a;color:white;padding:24px 16px;text-align:center}
+header h1{margin:0 0 10px;font-size:24px}
+header p{margin:0;color:#d5deea}
+main{max-width:700px;margin:24px auto;padding:0 14px}
+.card{background:white;padding:20px;border-radius:14px;margin-bottom:18px;box-shadow:0 3px 12px #0000000d}
+h2{font-size:18px;margin-top:0}
+label{display:block;margin:14px 0 7px}
+input,textarea{box-sizing:border-box;width:100%;padding:12px;border:1px solid #ccd5e0;border-radius:8px;font:inherit}
+button{width:100%;margin-top:16px;background:#d62839;color:white;border:0;border-radius:8px;padding:13px;font:inherit;cursor:pointer}
+.note{font-size:13px;color:#64748b;line-height:2}
+#status{margin-top:12px;font-size:14px}
+</style>
+</head>
+<body>
+<header>
+<h1>نوین نظارت</h1>
+<p>سامانه مدیریت مشتریان و اشتراک خدمات</p>
+</header>
+<main>
+<section class="card">
+<h2>ثبت مشتری جدید</h2>
+<form id="customerForm">
+<label for="fullName">نام و نام خانوادگی</label>
+<input id="fullName" required placeholder="نام مشتری">
+<label for="phone">شماره تماس</label>
+<input id="phone" required type="tel" placeholder="شماره موبایل">
+<label for="address">آدرس</label>
+<textarea id="address" rows="3" placeholder="آدرس مشتری"></textarea>
+<button type="submit">ثبت اولیه مشتری</button>
+</form>
+<p id="status" role="status"></p>
+<p class="note">این نسخه آزمایشی است؛ اطلاعات فعلاً فقط در همین صفحه نمایش داده می‌شوند و هنوز در پایگاه داده ذخیره نمی‌شوند.</p>
+</section>
+<section class="card">
+<h2>فهرست مشتریان این نشست</h2>
+<div id="customerList">هنوز مشتری‌ای ثبت نشده است.</div>
+</section>
+</main>
+<script>
+const form=document.getElementById('customerForm');
+const list=document.getElementById('customerList');
+const status=document.getElementById('status');
+let customers=[];
+form.addEventListener('submit',function(e){
+e.preventDefault();
+const name=document.getElementById('fullName').value.trim();
+const phone=document.getElementById('phone').value.trim();
+const address=document.getElementById('address').value.trim();
+customers.push({name,phone,address});
+list.replaceChildren();
+customers.forEach(function(c,i){
+const item=document.createElement('div');
+item.style.cssText='padding:12px 0;border-bottom:1px solid #eee;line-height:2';
+item.textContent=(i+1)+'. '+c.name+' | '+c.phone+' | '+(c.address||'بدون آدرس');
+list.appendChild(item);
+});
+status.textContent='مشتری در نمایش آزمایشی اضافه شد.';
+form.reset();
+});
+</script>
+</body>
+</html>
